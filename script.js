@@ -25,10 +25,10 @@ document.querySelectorAll('[data-open-dialog]').forEach(button => {
   });
 });
 
-const closeDialog = () => {
+function closeDialog() {
   dialog.close();
   document.body.classList.remove('dialog-open');
-};
+}
 
 document.querySelector('.dialog-close')?.addEventListener('click', closeDialog);
 dialog?.addEventListener('click', event => {
@@ -41,19 +41,19 @@ dialog?.addEventListener('close', () => document.body.classList.remove('dialog-o
 form?.addEventListener('submit', event => {
   event.preventDefault();
   const data = new FormData(form);
-  const subject = `Заявка с сайта: ${data.get('service')}`;
+  const subject = `Запрос на перевозку: ${data.get('service')}`;
   const body = [
     `Имя / компания: ${data.get('name')}`,
     `Контакт: ${data.get('contact')}`,
     `Услуга: ${data.get('service')}`,
-    `Маршрут: ${data.get('from') || 'не указан'} → ${data.get('to') || 'не указан'}`,
+    `Маршрут: ${data.get('from') || 'не указан'} — ${data.get('to') || 'не указан'}`,
     '',
     'Информация о грузе:',
     data.get('details') || 'не указана'
   ].join('\n');
   toast.classList.add('show');
-  window.location.href = `mailto:sharapova@avind.spb.ru?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  setTimeout(() => toast.classList.remove('show'), 3500);
+  window.location.href = `mailto:natalia.plehanova@avind.ee?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  setTimeout(() => toast.classList.remove('show'), 3200);
 });
 
 const observer = new IntersectionObserver(entries => {
@@ -63,7 +63,6 @@ const observer = new IntersectionObserver(entries => {
       observer.unobserve(entry.target);
     }
   });
-}, { threshold: 0.12 });
-document.querySelectorAll('.reveal').forEach(item => observer.observe(item));
-
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(element => observer.observe(element));
 document.querySelector('#year').textContent = new Date().getFullYear();
